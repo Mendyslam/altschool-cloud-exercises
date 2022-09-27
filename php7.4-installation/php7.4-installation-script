@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# A bash script to install php7.4 from ppa:ondrej/php package repository
+
+sudo apt-get -y update
+sudo apt-get -y install software-properties-common
+sudo add-apt-repository -y ppa:ondrej/php
+sudo apt-get -y update
+sudo apt -y install php7.4
