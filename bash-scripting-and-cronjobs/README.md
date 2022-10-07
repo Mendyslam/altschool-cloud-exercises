@@ -1,6 +1,6 @@
 # Bash Scripting and Crontab
 
-The objects of this exercise are:
+The objectives of this exercise are:
 
 - Scripting essentials and syntax
 - Task automation
