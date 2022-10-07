@@ -18,9 +18,16 @@ Learning linux commands and how to use them to interact with the unix resource s
 - Research online for 10 more linux commands aside the ones already mentioned in this module
 - Explain what each command is used for with examples of how to use each and example screenshots of using each of them
 
-## [Exercise 2 - Application Package Management](./php7.4-installation)
+## [Exercise 3 - Application Package Management](./php7.4-installation)
 
 Install `PHP 7.4` on your local linux machine using the `ppa:ondrej/php` package repository
 
 - Learn how to use the `add-apt-repository` command
 - Submit the content of `/etc/apt/sources.list` and the output of `php -v` command.
+
+## [Exercise 8 - Bash Scripting and Cron jobs](./bash-scripting-and-cronjobs)
+
+The foundations of automation through `bash scripting` and task scheduling via `crontab`
+
+- Create a bash script to run at every hour, saving system memory (RAM) usage to a specified file
+- At midnight it sends the content of the file to a specified email address, then starts over for the new day.
