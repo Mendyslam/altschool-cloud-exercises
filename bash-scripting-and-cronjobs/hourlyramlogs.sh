@@ -8,7 +8,7 @@ SENDTIME=$(date +%H:%M)
 
 [[ ! -d "/var/log/ramlogs" ]] && mkdir -p /var/log/ramlogs/
 
-if [ "$SENDTIME" == "00:00" ]; then
+if [ "$SENDTIME" = 23:00 ]; then
 	yesterday=$(date -d "yesterday" '+%Y-%m-%d')
 	echo "Please find attached cloudmendy.tech server ram log for $yesterday" | mutt -s "RAM usage report for cloudmendy" devops@cloud.com -a $LOGFILE
 	rm -rf $LOGFILE
