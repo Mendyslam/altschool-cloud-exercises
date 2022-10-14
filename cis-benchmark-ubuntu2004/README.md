@@ -1,4 +1,4 @@
-# 10 CIS Benchmarks for Ubuntu20.04
+# 10 CIS Benchmarks for Ubuntu20.04 LTS Linux Operating System
 
 The following benchmarrks are applicable to level 1 server, but not limited to just it.
 
@@ -353,3 +353,5 @@ The prelinking feature can interfere with AIDE because it alters binaries to spe
 start up times. Run prelink -ua to restore the binaries to their prelinked state, thus
 avoiding false positives from AIDE.
 
+For more CIS benchmarks, visit [cisecurity](https://downloads.cisecurity.org/#/)
+-- 
