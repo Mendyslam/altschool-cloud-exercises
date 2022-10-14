@@ -31,3 +31,10 @@ The foundations of automation through `bash scripting` and task scheduling via `
 
 - Create a bash script to run at every hour, saving system memory (RAM) usage to a specified file
 - At midnight it sends the content of the file to a specified email address, then starts over for the new day.
+
+## [CIS Benchmark for Ubuntu2004](./cis-benchmark-ubuntu2004)
+
+This exercise involves understanding and implementing the CIS benchmark for compute infrastructure
+
+- We are tasked to review and effect any 10 CIS benchmarks on our local virtual machine
+- Level 1 - Server applicability profile is the focus for this exercise
