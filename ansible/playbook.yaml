@@ -1,0 +1,115 @@
+---
+- name: Server configuration
+  hosts: webServer
+  become: true
+  remote_user: apache
+ 
+  tasks:
+  - name: Install aptitude
+    ansible.builtin.apt:
+      name: aptitude
+      state: latest
+      update_cache: true
+  - name: Disable password authentication for root
+    ansible.builtin.lineinfile:
+      path: /etc/ssh/sshd_config
+      state: present
+      regexp: '^#?PermitRootLogin'
+      line: 'PermitRootLogin prohibit-password'
+  - name: Update apt and install required system packages
+    ansible.builtin.apt:
+      pkg: ufw
+      state: latest
+      update_cache: true
+  - name: UFW - ALLOW SSH connections
+    community.general.ufw:
+      rule: allow
+      name: OpenSSH
+  - name: UFW - Enable and deny by default
+    community.general.ufw:
+      state: enabled
+      default: deny
+    register: ufw_enabled
+  - name: UFW - ALLOW HTTP connections
+    community.general.ufw:
+      rule: allow
+      port: 80
+      proto: tcp
+    notify: restart ufw
+    when: ufw_enabled is succeeded
+  - name: Set timezone to Africa/Lagos
+    community.general.timezone:
+      name: Africa/Lagos
+
+  handlers:
+  - name: restart ufw
+    ansible.builtin.service:
+      name: ufw
+      state: restarted
+
+- name: Install php
+  hosts: webServer
+  become: true
+  remote_user: apache
+
+  tasks:
+  - name: Update apt
+    ansible.builtin.apt:
+      update_cache: yes
+  - name: Install software-properties-common
+    ansible.builtin.apt:
+      name: software-properties-common
+      state: latest
+  - name: Add php package repository
+    ansible.builtin.apt_repository:
+      repo: ppa:ondrej/php
+      state: present
+      update_cache: yes
+    register: php_repo_added
+  - name: Install phpv7.4
+    ansible.builtin.apt:
+      name: php7.4
+      state: latest
+      update_cache: yes
+    when: php_repo_added is succeeded
+
+- name: Setting up apache web server
+  hosts: webServer
+  become: true
+  remote_user: apache
+  vars:
+    doc_root: /var/www/apache
+  
+  tasks:
+  - name: Update apt
+    ansible.builtin.apt:
+      update_cache: yes
+  - name: Install Apache
+    ansible.builtin.apt:
+      name: apache2
+      state: latest
+      update_cache: yes
+  - name: Create a custom document root
+    ansible.builtin.file:
+      path: "{{ doc_root }}"
+      state: directory
+      recurse: true
+      owner: www-data
+      group: www-data
+  - name: Set up html file
+    ansible.builtin.copy:
+      src: index.php
+      dest: "{{ doc_root }}/index.php"
+      mode: 0644
+  - name: Set up Apache virtual host file
+    ansible.builtin.template:
+      src: vhost.tpl
+      dest: /etc/apache2/sites-available/000-default.conf
+    notify: restart apache
+
+  handlers:
+  - name: restart apache
+    ansible.builtin.service:
+      name: apache2.service
+      state: restarted
+    when: not ansible_check_mode
