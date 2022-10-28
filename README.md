@@ -38,3 +38,15 @@ The foundations of automation through `bash scripting` and task scheduling via `
 
 - Create a bash script to run at every hour, saving system memory (RAM) usage to a specified file
 - At midnight it sends the content of the file to a specified email address, then starts over for the new day.
+
+## [Exercise 9 - Configuration management with Ansible](./ansible)
+
+As a broader subject, configuration management (CM) refers to the process of systematically handling changes
+to a system in a way that it maintains integrity over time. Even though this process was not originated in the
+IT industry, the term is broadly used to refer to server configuration management.
+
+This exercise focuses [ansible](https://docs.ansible.com/ansible/latest/), a popular, minimalistic yet power tool.
+
+- Create an Ansible Playbook to setup a server with Apache
+- The server should be set to the Africa/Lagos Timezone
+- Host an index.php file with the following content, as the main file on the server:
