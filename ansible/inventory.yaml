@@ -1,0 +1,4 @@
+webServer:
+  hosts:
+    apachewebserver:
+      ansible_host: 102.37.159.72
