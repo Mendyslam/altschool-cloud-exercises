@@ -50,3 +50,14 @@ This exercise focuses [ansible](https://docs.ansible.com/ansible/latest/), a pop
 - Create an Ansible Playbook to setup a server with Apache
 - The server should be set to the Africa/Lagos Timezone
 - Host an index.php file with the following content, as the main file on the server:
+
+## [Exercise 10 - Networking: IP addressing and Subnet Mask](./networking)
+
+Understanding how devices are addressed and how networks are classed.
+This exercise enlightens on the calculation of IP addresses from a given IP and subnet mask.
+
+- Given this `193.16.20.35/29` address:
+    - What is the Network IP
+    - Number of Hosts
+    - Range of IP addresses
+    - Broadcast IP of the subnet
