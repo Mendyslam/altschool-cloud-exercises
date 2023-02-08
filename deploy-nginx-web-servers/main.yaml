@@ -1,0 +1,74 @@
+---
+
+- hosts: all
+  become: true
+  gather_facts: False
+  remote_user: ubuntu
+  tasks:
+
+  - name: Install aptitude
+    ansible.builtin.apt:
+      name: apt
+      state: present
+  
+  - name: Update all packages
+    ansible.builtin.apt:
+      update_cache: yes
+      upgrade: safe
+      autoremove: yes
+ 
+  - name: Install nginx on the servers
+    apt:
+      name: nginx
+      state: latest
+
+  - name: Install software-properties-common
+    ansible.builtin.apt:
+      name: software-properties-common
+      state: latest
+
+  - name: Add php package repository
+    ansible.builtin.apt_repository:
+      repo: ppa:ondrej/php
+      state: present
+      update_cache: yes
+    register: php_repo_added
+
+  - name: Install phpv7.4
+    ansible.builtin.apt:
+      name: php7.4
+      state: latest
+      update_cache: yes
+    when: php_repo_added is succeeded
+
+  - name: Discard the nginx index file
+    file:
+      path: /var/www/html/index.nginx-debian.html
+      state: absent
+
+  - name: Discard the nginx default file
+    file:
+      path: /etc/nginx/sites-available/default
+      state: absent
+
+  - name: Copy the new nginx default file to the servers
+    copy:
+      src: default
+      dest: /etc/nginx/sites-available
+      owner: root
+      group: root
+      mode: 0744
+
+  - name: Add the php file to the servers
+    copy:
+      src: index.php
+      dest: /var/www/html
+      owner: root
+      group: root
+      mode: 0744
+
+  - name: Restart the nginx service
+    service:
+      name: nginx
+      state: restarted
+      enabled: yes
